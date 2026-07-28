@@ -7,6 +7,7 @@ import { Edit, Plus } from "lucide-react";
 import CommonService from "../../../services/common/common.service";
 import LocationForm from "./LocationForm";
 import { Box, Flex, Text, IconButton } from "@radix-ui/themes";
+import type { Location } from "../../../types/common";
 
 const LocationPanel: React.FC = () => {
   const { Locations, isLoading } = useSelector((s: RootState) => s.common);
@@ -16,10 +17,10 @@ const LocationPanel: React.FC = () => {
 
   const [modelState, setModelState] = useState<{
     isOpen: boolean;
-    selectedLocation: any | null;
+    selectedLocation: Location | null;
   }>({ isOpen: false, selectedLocation: null });
 
-  const handleOpen = (row: any) => {
+  const handleOpen = (row: Location | null) => {
     setModelState({
       isOpen: true,
       selectedLocation: row,

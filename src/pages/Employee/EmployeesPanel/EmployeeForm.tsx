@@ -26,7 +26,7 @@ const EmployeeForm: React.FC<{
     if (Roles.length == 0) {
       CommonService.fetchRBACInfo();
     }
-  }, []);
+  }, [Roles.length]);
 
   const form = useFormik<Employee>({
     initialValues: {

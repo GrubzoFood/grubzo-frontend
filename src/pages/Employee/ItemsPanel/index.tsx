@@ -9,18 +9,22 @@ import CTable from "../../../components/common/CTable";
 import CButton from "../../../components/common/CButton";
 import ItemForm from "./ItemForm";
 import { Box, Flex, Text, Avatar, Badge, IconButton } from "@radix-ui/themes";
+import type { BadgeProps } from "@radix-ui/themes";
 import { Plus, Edit, Hamburger } from "lucide-react";
 import {
   FoodCategoryOptions,
   ItemStatusOptions,
+  type Item,
   type ModifyItemPayload,
 } from "../../../types/item.d";
+
+type BadgeColor = BadgeProps["color"];
 
 const ItemsPanel: React.FC = () => {
   const { items, isLoading } = useSelector((s: RootState) => s.item);
 
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [editItem, setEditItem] = useState<any>(null);
+  const [editItem, setEditItem] = useState<Item | null>(null);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -32,7 +36,7 @@ const ItemsPanel: React.FC = () => {
     setDrawerOpen(true);
   };
 
-  const handleEdit = (item: any) => {
+  const handleEdit = (item: Item) => {
     setEditItem(item);
     setDrawerOpen(true);
   };
@@ -115,7 +119,7 @@ const ItemsPanel: React.FC = () => {
                 (opt) => opt.value === item.FoodType
               );
               return (
-                <Badge size="2" variant="soft" color={status?.color as any}>
+                <Badge size="2" variant="soft" color={status?.color as BadgeColor}>
                   {status?.label ?? ""}
                 </Badge>
               );
@@ -129,7 +133,7 @@ const ItemsPanel: React.FC = () => {
                 (opt) => opt.value === item.ItemStatus
               );
               return (
-                <Badge size="2" variant="soft" color={status?.color as any}>
+                <Badge size="2" variant="soft" color={status?.color as BadgeColor}>
                   {status?.label ?? ""}
                 </Badge>
               );

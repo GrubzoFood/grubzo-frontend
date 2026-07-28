@@ -117,7 +117,7 @@ axios.defaults.withCredentials = true;
 
 export function handleApiError<T>(
   error: unknown,
-  rejectWithValue?: (value: T) => any
+  rejectWithValue?: (value: T) => unknown
 ) {
   if (rejectWithValue == undefined) {
     rejectWithValue = (value) => {

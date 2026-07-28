@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const zodToFormik =
   (schema: z.ZodTypeAny) =>
-  (values: any): Record<string, string> => {
+  (values: unknown): Record<string, string> => {
     const result = schema.safeParse(values);
 
     if (result.success) return {};

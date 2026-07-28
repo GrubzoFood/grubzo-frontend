@@ -9,6 +9,7 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
+import type { DragEndEvent, UniqueIdentifier } from "@dnd-kit/core";
 
 import {
   SortableContext,
@@ -23,7 +24,17 @@ import CommonService from "../../services/common/common.service";
 import { apiUrl } from "../../services/api";
 import { Box, Flex, Text, Card, IconButton } from "@radix-ui/themes";
 
-function SortableItem({ id, children }: any) {
+type RadixCardStyle = React.CSSProperties & {
+  "--card-border-radius"?: string;
+};
+
+function SortableItem({
+  id,
+  children,
+}: {
+  id: UniqueIdentifier;
+  children: React.ReactNode;
+}) {
   const {
     attributes,
     listeners,
@@ -136,7 +147,7 @@ const CUpload: React.FC<CUploadProps> = ({
     useSensor(PointerSensor, { activationConstraint: { distance: 6 } })
   );
 
-  const handleDragEnd = (result: any) => {
+  const handleDragEnd = (result: DragEndEvent) => {
     if (!result.over) return;
     const oldIndex = uploaded.findIndex((i) => i.ID === result.active.id);
     const newIndex = uploaded.findIndex((i) => i.ID === result.over.id);
@@ -224,8 +235,8 @@ const CUpload: React.FC<CUploadProps> = ({
                 <Card
                   style={{
                     padding: "8px",
-                    ["--card-border-radius" as any]: "3px",
-                  }}
+                    "--card-border-radius": "3px",
+                  } satisfies RadixCardStyle}
                 >
                   <Flex align="center" gap="3" p="1">
                     <Box

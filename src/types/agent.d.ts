@@ -32,7 +32,11 @@ export interface AgentStreamEvent {
   session_id?: string;
   message?: string;
   tool_name?: string;
-  payload?: any;
+  payload?: {
+    content?: Array<{ text?: string }>;
+    structuredContent?: { note?: string };
+    isError?: boolean;
+  };
 }
 
 export interface AgentChatRequest {

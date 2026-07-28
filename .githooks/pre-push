@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+. "$(dirname "$0")/npm-env.sh"
+
+echo "Running pre-push test suite..."
+npm test

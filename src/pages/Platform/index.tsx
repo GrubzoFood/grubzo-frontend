@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Box, Flex, Heading, IconButton, Text } from "@radix-ui/themes";
 import { Edit, Plus } from "lucide-react";
 
@@ -275,7 +275,7 @@ function PlatformDashboard({ onLogout }: { onLogout: () => void }) {
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState<TenantFormState | null>(null);
 
-  const loadTenants = async () => {
+  const loadTenants = useCallback(async () => {
     try {
       setLoading(true);
       setTenants(await PlatformService.listTenants());
@@ -284,11 +284,11 @@ function PlatformDashboard({ onLogout }: { onLogout: () => void }) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [showError]);
 
   useEffect(() => {
     loadTenants();
-  }, []);
+  }, [loadTenants]);
 
   const filteredTenants = useMemo(() => {
     const q = search.trim().toLowerCase();

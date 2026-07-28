@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Box, Flex, Text, Badge } from "@radix-ui/themes";
 import { Plus } from "lucide-react";
 import { useRazorpay } from "react-razorpay";
+import type { RazorpayOrderOptions } from "react-razorpay";
 
 import CTable, { type Column } from "../../../components/common/CTable";
 import CButton from "../../../components/common/CButton";
@@ -45,6 +46,17 @@ type WalletRow = WalletTransactionDTO & {
   Sign: "+" | "-";
 };
 
+type WalletRechargeOrderDTO = {
+  key: string;
+  amount: number;
+  currency: RazorpayOrderOptions["currency"];
+  id: string;
+};
+
+type RazorpaySuccessResponse = Parameters<
+  NonNullable<RazorpayOrderOptions["handler"]>
+>[0];
+
 function Wallet() {
   const { Razorpay, isLoading: isRazorpayLoading, error } = useRazorpay();
 
@@ -72,13 +84,13 @@ function Wallet() {
     loadWallet();
   }, []);
 
-  const openRazorpay = (order: any) => {
+  const openRazorpay = (order: WalletRechargeOrderDTO) => {
     if (!Razorpay) {
       console.error("Razorpay not ready", error);
       return;
     }
 
-    const options = {
+    const options: RazorpayOrderOptions = {
       key: order.key,
       amount: order.amount,
       currency: order.currency,
@@ -86,7 +98,7 @@ function Wallet() {
       description: "Wallet Recharge",
       order_id: order.id,
 
-      handler: async (response: any) => {
+      handler: async (response: RazorpaySuccessResponse) => {
         try {
           await apiFetch("/api/v1/wallet/verify_recharge", {
             method: "POST",
@@ -124,7 +136,7 @@ function Wallet() {
         body: JSON.stringify({ Amount: value }),
       });
 
-      const order = await res.json();
+      const order = (await res.json()) as WalletRechargeOrderDTO;
       openRazorpay(order);
       setDrawerOpen(false);
       setAmount("");

@@ -2,7 +2,7 @@ import React from "react";
 import { Select, Text, Flex } from "@radix-ui/themes";
 
 interface Option {
-  value: any;
+  value: string | number;
   label: string;
 }
 

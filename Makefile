@@ -1,9 +1,31 @@
+REPO ?= rohan001
+IMAGE_NAME ?= grubzo-frontend
+TAG ?= $(shell git rev-parse --short HEAD)
+HOOKS_DIR ?= .githooks
+
+.PHONY: run docker-build docker-push install-hooks lint test
+
 run:
 	@echo "Starting frontend..."
-	@cd frontend && npm run dev > ../tmp/frontend.log 2>&1 &
-	@echo "Frontend started (logs in tmp/frontend.log)"
+	@npm run dev
+
+lint:
+	npm run lint
+
+test:
+	npm test
 
 docker-build:
-	docker build -t rohana001/grubzo-frontend:v0.1.1 .
+	docker build -t $(REPO)/$(IMAGE_NAME):$(TAG) .
+
 docker-push:
-	docker push rohana001/grubzo-frontend:v0.1.1
+	docker push $(REPO)/$(IMAGE_NAME):$(TAG)
+
+install-hooks:
+	@git config core.hooksPath $(HOOKS_DIR)
+	@chmod +x $(HOOKS_DIR)/pre-commit $(HOOKS_DIR)/pre-push
+	@echo "Git hooks installed from $(HOOKS_DIR)"
+
+
+# make docker-build TAG=v0.1.1
+# make docker-push TAG=v0.1.1

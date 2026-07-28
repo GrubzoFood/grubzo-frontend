@@ -1,5 +1,5 @@
-import type { X } from "lucide-react";
 import { z } from "zod";
+import type { FileInfo } from "./common";
 
 export type FoodCategoryType = "veg" | "nonveg" | "egg";
 export type ItemStatusValue = "av" | "os" | "ac";
@@ -28,7 +28,7 @@ export const ItemSchema = z.object({
   ItemStatus: z.enum(["av", "os", "ac"]),
   CreatedAt: z.string(),
   UpdatedAt: z.string(),
-  Files: z.array(z.any()),
+  Files: z.array(z.custom<FileInfo>()),
 });
 export type Item = z.infer<typeof ItemSchema>;
 

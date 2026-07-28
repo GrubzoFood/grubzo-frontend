@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import type { RootState } from "../../../services/store";
+import type { AppDispatch, RootState } from "../../../services/store";
 
 import { fetchOrders } from "../../../services/order/order.slice";
 import type { Order } from "../../../types/order.d";
@@ -13,7 +13,7 @@ import OrderActionForm from "./OrderActionForm";
 const formatMoney = (p: number) => `₹${(p / 100).toFixed(2)}`;
 
 const OrdersPanel: React.FC = () => {
-  const dispatch = useDispatch<any>();
+  const dispatch = useDispatch<AppDispatch>();
   const { orders, isLoading } = useSelector((s: RootState) => s.order);
 
   const [search, setSearch] = useState("");
@@ -21,7 +21,7 @@ const OrdersPanel: React.FC = () => {
 
   useEffect(() => {
     dispatch(fetchOrders());
-  }, []);
+  }, [dispatch]);
 
   const filtered = orders.filter((o) => {
     const s = search.toLowerCase();

@@ -14,6 +14,10 @@ import { RefreshCw, Settings2, Search } from "lucide-react";
 import CButton from "./CButton";
 import "./style.css";
 
+type RadixCardStyle = React.CSSProperties & {
+  "--card-border-radius"?: string;
+};
+
 export interface Column<T> {
   key: keyof T | string;
   label: string;
@@ -162,8 +166,8 @@ export default function CTable<T extends object>({
         style={{
           padding: "0",
           margin: "0",
-          ["--card-border-radius" as any]: "none",
-        }}
+          "--card-border-radius": "none",
+        } satisfies RadixCardStyle}
       >
         {loading ? (
           <Table.Root size="2">
@@ -221,7 +225,7 @@ export default function CTable<T extends object>({
                 </Table.Row>
               ) : (
                 data.map((row) => {
-                  const rowId = String((row as any)[rowKey]);
+                  const rowId = String(row[rowKey]);
                   return (
                     <Table.Row key={rowId} className="c-hover-accent-1">
                       {visibleColumns
@@ -237,7 +241,7 @@ export default function CTable<T extends object>({
                             {col.render
                               ? col.render(row)
                               : col.key in row
-                              ? String((row as any)[col.key as keyof T])
+                              ? String(row[col.key as keyof T])
                               : ""}
                           </Table.Cell>
                         ))}

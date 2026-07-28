@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Badge, Flex, IconButton, Text, Tooltip } from "@radix-ui/themes";
 import {
   Bot,
@@ -223,17 +223,7 @@ const AgentLauncher = () => {
     };
   }, [open]);
 
-  useEffect(() => {
-    if (!open) return;
-    void loadSessions();
-  }, [open]);
-
-  useEffect(() => {
-    if (!open || !selectedSessionId || sending) return;
-    void loadMessages(selectedSessionId);
-  }, [open, selectedSessionId, sending]);
-
-  const loadSessions = async (preferredSessionId?: string | null) => {
+  const loadSessions = useCallback(async (preferredSessionId?: string | null) => {
     setLoadingSessions(true);
     try {
       const nextSessions = await AgentService.listSessions();
@@ -269,9 +259,9 @@ const AgentLauncher = () => {
     } finally {
       setLoadingSessions(false);
     }
-  };
+  }, [selectedSessionId, sending, showError]);
 
-  const loadMessages = async (sessionId: string) => {
+  const loadMessages = useCallback(async (sessionId: string) => {
     setLoadingMessages(true);
     try {
       const messages = await AgentService.listMessages(sessionId);
@@ -292,7 +282,17 @@ const AgentLauncher = () => {
     } finally {
       setLoadingMessages(false);
     }
-  };
+  }, [showError]);
+
+  useEffect(() => {
+    if (!open) return;
+    void loadSessions();
+  }, [open, loadSessions]);
+
+  useEffect(() => {
+    if (!open || !selectedSessionId || sending) return;
+    void loadMessages(selectedSessionId);
+  }, [open, selectedSessionId, sending, loadMessages]);
 
   const handleNewSession = () => {
     setSelectedSessionId(null);

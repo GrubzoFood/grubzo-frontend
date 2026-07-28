@@ -9,6 +9,7 @@ import { Plus, Edit } from "lucide-react";
 import EmployeeForm from "./EmployeeForm";
 
 import CommonService from "../../../services/common/common.service";
+import type { Employee } from "../../../types/common";
 
 const ItemsPanel: React.FC = () => {
   const { Employees: employees, isLoading } = useSelector(
@@ -16,7 +17,7 @@ const ItemsPanel: React.FC = () => {
   );
 
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const [editItem, setEditItem] = useState<any>(null);
+  const [editItem, setEditItem] = useState<Employee | null>(null);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -28,7 +29,7 @@ const ItemsPanel: React.FC = () => {
     setDrawerOpen(true);
   };
 
-  const handleEdit = (item: any) => {
+  const handleEdit = (item: Employee) => {
     setEditItem(item);
     setDrawerOpen(true);
   };

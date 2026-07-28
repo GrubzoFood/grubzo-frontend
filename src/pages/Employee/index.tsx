@@ -61,7 +61,7 @@ const TAB_CONFIG = [
 
 function EmployeeHome() {
   const [activeTab, setActiveTab] = useState(0);
-  let { user } = useSelector((s: RootState) => s.auth);
+  const { user } = useSelector((s: RootState) => s.auth);
   const visibleTabs = TAB_CONFIG.filter((t) =>
     t.permissions.some((perm) => user?.Permisssions?.includes(perm))
   );

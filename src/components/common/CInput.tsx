@@ -65,7 +65,7 @@ const CInput: React.FC<CInputProps> = ({
           paddingLeft: startIcon ? "8px" : undefined,
           paddingRight: endIcon ? "8px" : undefined,
         }}
-        onChange={(e: any) => onChange(e.target.value)}
+        onChange={(event) => onChange(event.target.value)}
         value={value}
       >
         {startIcon && <TextField.Slot>{startIcon}</TextField.Slot>}

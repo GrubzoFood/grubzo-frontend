@@ -74,16 +74,16 @@ const CommonService = {
   },
 
   locationChangeAccess() {
-    let hasLocationAccess =
+    const hasLocationAccess =
       store
         .getState()
         .auth.user?.Permisssions?.includes(PERMISSIONS.LOCATION) || false;
-    let isUser = store.getState().auth.user?.Type == "user";
+    const isUser = store.getState().auth.user?.Type == "user";
     return hasLocationAccess || isUser;
   },
 
   hasAccessTo(perm: Permission): boolean {
-    let hasAccess =
+    const hasAccess =
       store.getState().auth.user?.Permisssions?.includes(perm) || false;
     return hasAccess;
   },

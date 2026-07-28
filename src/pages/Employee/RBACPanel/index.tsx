@@ -9,6 +9,7 @@ import { useErrorHandler } from "../../../hooks/useErrorHandler";
 import { Box, Flex, Text } from "@radix-ui/themes";
 import CreateRoleForm from "./CreateRoleForm";
 import CommonService from "../../../services/common/common.service";
+import type { UpdateRole } from "../../../types/common";
 
 const RBACPanel: React.FC = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -51,7 +52,7 @@ const RBACPanel: React.FC = () => {
       }
 
       const original = Grid || {};
-      const diff: any[] = [];
+      const diff: UpdateRole[] = [];
 
       const map: Record<string, Set<string>> = {};
       grid.forEach((r) => (map[r.Role] = new Set(r.Permissions)));

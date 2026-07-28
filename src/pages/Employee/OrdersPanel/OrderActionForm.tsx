@@ -41,7 +41,7 @@ const OrderActionForm: React.FC<{
     },
     onSubmit: async (values) => {
       try {
-        let res = await orderService.updateStatus({
+        const res = await orderService.updateStatus({
           OrderID: order.ID,
           OrderStatus: values.Status,
           PaymentStatus: values.PaymentStatus,
@@ -50,7 +50,7 @@ const OrderActionForm: React.FC<{
         showSuccess(res.Message || "Order updated");
         onCancel();
         onSuccess();
-      } catch (err: any) {
+      } catch (err) {
         showError(err);
       }
     },

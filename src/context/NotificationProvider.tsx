@@ -1,24 +1,9 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
-import type { ReactNode, ReactElement } from "react";
-
-interface NotificationContextProps {
-  showNotification: (
-    Component: ReactElement<any>,
-    props?: Record<string, any>
-  ) => void;
-  hideNotification: () => void;
-}
-
-const NotificationContext = createContext<NotificationContextProps | undefined>(
-  undefined
-);
-
-export const useNotification = () => {
-  const context = useContext(NotificationContext);
-  if (!context)
-    throw new Error("useNotification must be used within NotificationProvider");
-  return context;
-};
+import React, { useState, useCallback } from "react";
+import type { ReactNode } from "react";
+import {
+  NotificationContext,
+  type NotificationElement,
+} from "./notificationContext";
 
 interface NotificationProviderProps {
   children: ReactNode;
@@ -28,13 +13,15 @@ export const NotificationProvider: React.FC<NotificationProviderProps> = ({
   children,
 }) => {
   const [visible, setVisible] = useState(false);
-  const [Component, setComponent] = useState<ReactElement<any> | null>(null);
-  const [componentProps, setComponentProps] = useState<Record<string, any>>({});
+  const [Component, setComponent] = useState<NotificationElement | null>(null);
+  const [componentProps, setComponentProps] = useState<Record<string, unknown>>(
+    {}
+  );
 
   const showNotification = useCallback(
-    (Comp: ReactElement<any>, props: Record<string, any> = {}) => {
+    (Comp: NotificationElement, props: Record<string, unknown> = {}) => {
       setComponent(Comp);
-      setComponentProps({ props });
+      setComponentProps(props);
       setVisible(true);
     },
     []
