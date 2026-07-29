@@ -22,7 +22,7 @@ export const setUserLocation = async function (
     });
     return response.data;
   } catch (error) {
-    return handleApiError<ErrorResponse>(error);
+    return handleApiError(error);
   }
 };
 

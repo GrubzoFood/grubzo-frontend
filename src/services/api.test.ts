@@ -28,11 +28,26 @@ describe("api helpers", () => {
   });
 
   it("matches platform hosts against the configured instance name", async () => {
-    const fetchMock = vi.fn().mockResolvedValue(new Response("tenant"));
+    const fetchMock = vi.fn().mockResolvedValue(
+      Response.json({
+        tenants: ["tenant"],
+        instance: "tenant",
+        environment: "dev",
+        version: "test",
+        revision: "test",
+      })
+    );
     vi.stubGlobal("fetch", fetchMock);
 
     await expect(isPlatformHost("tenant.grubzo.food")).resolves.toBe(true);
     await expect(isPlatformHost("other.grubzo.food")).resolves.toBe(false);
     await expect(isPlatformHost("localhost")).resolves.toBe(false);
+    expect(fetchMock).toHaveBeenCalledWith(
+      "/api/meta/info",
+      expect.objectContaining({
+        credentials: "include",
+        headers: { Accept: "application/json" },
+      })
+    );
   });
 });
