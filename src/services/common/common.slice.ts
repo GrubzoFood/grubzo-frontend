@@ -45,7 +45,7 @@ export const createLocation = createAsyncThunk<
   { rejectValue: ErrorResponse }
 >("common/createLocation", async (body, { rejectWithValue }) => {
   try {
-    const res = await axios.post<Location>(LOCATION_CREATE, body);
+    const res = await axios.post<LocationResponse>(LOCATION_CREATE, body);
     return res.data;
   } catch (error) {
     return handleApiError<ErrorResponse>(error, rejectWithValue);
@@ -58,7 +58,7 @@ export const updateLocation = createAsyncThunk<
   { rejectValue: ErrorResponse }
 >("common/updateLocation", async (body, { rejectWithValue }) => {
   try {
-    const res = await axios.put<Location>(LOCATION_UPDATE, body);
+    const res = await axios.put<LocationResponse>(LOCATION_UPDATE, body);
     return res.data;
   } catch (error) {
     return handleApiError<ErrorResponse>(error, rejectWithValue);

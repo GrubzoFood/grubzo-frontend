@@ -167,7 +167,7 @@ export default function CTable<T extends object>({
           padding: "0",
           margin: "0",
           "--card-border-radius": "none",
-        } satisfies RadixCardStyle}
+        } as RadixCardStyle}
       >
         {loading ? (
           <Table.Root size="2">

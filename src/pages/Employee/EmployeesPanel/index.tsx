@@ -113,7 +113,7 @@ const ItemsPanel: React.FC = () => {
       />
 
       {drawerOpen && (
-        <EmployeeForm emp={editItem} cancel={() => setDrawerOpen(false)} />
+        <EmployeeForm emp={editItem ?? undefined} cancel={() => setDrawerOpen(false)} />
       )}
     </Box>
   );

@@ -148,9 +148,10 @@ const CUpload: React.FC<CUploadProps> = ({
   );
 
   const handleDragEnd = (result: DragEndEvent) => {
-    if (!result.over) return;
+    const over = result.over;
+    if (!over) return;
     const oldIndex = uploaded.findIndex((i) => i.ID === result.active.id);
-    const newIndex = uploaded.findIndex((i) => i.ID === result.over.id);
+    const newIndex = uploaded.findIndex((i) => i.ID === over.id);
     if (oldIndex === newIndex) return;
 
     setUploaded((prev) => {
@@ -236,7 +237,7 @@ const CUpload: React.FC<CUploadProps> = ({
                   style={{
                     padding: "8px",
                     "--card-border-radius": "3px",
-                  } satisfies RadixCardStyle}
+                  } as RadixCardStyle}
                 >
                   <Flex align="center" gap="3" p="1">
                     <Box

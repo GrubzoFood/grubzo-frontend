@@ -1,4 +1,4 @@
-REPO ?= rohan001
+REPO ?= rohana001
 IMAGE_NAME ?= grubzo-frontend
 TAG ?= $(shell git rev-parse --short HEAD)
 HOOKS_DIR ?= .githooks

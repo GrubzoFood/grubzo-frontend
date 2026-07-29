@@ -31,7 +31,7 @@ export const createEmployee = createAsyncThunk<
   { rejectValue: ErrorResponse }
 >("employee/createEmployee", async (body, { rejectWithValue }) => {
   try {
-    const res = await axios.post<Employee>(EMPLOYEE_CREATE, body);
+    const res = await axios.post<EmployeeResponse>(EMPLOYEE_CREATE, body);
     return res.data;
   } catch (error) {
     return handleApiError<ErrorResponse>(error, rejectWithValue);
@@ -44,7 +44,7 @@ export const updateEmployee = createAsyncThunk<
   { rejectValue: ErrorResponse }
 >("employee/updateEmployee", async (body, { rejectWithValue }) => {
   try {
-    const res = await axios.put<Employee>(EMPLOYEE_UPDATE, body);
+    const res = await axios.put<EmployeeResponse>(EMPLOYEE_UPDATE, body);
     return res.data;
   } catch (error) {
     return handleApiError<ErrorResponse>(error, rejectWithValue);

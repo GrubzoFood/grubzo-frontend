@@ -51,15 +51,28 @@ function labelFromHost(
   return label && !label.includes(".") ? { label } : null;
 }
 
+interface MetaInfo {
+  tenants: string[];
+  instance: string;
+  environment: string;
+  version: string;
+  revision: string;
+}
+
 async function fetchInstanceName(): Promise<string> {
   try {
-    const response = await apiFetch("/api/instance", {
-      headers: { Accept: "text/plain" },
+    const response = await apiFetch("/api/meta/info", {
+      headers: {
+        Accept: "application/json",
+      },
     });
+
     if (!response.ok) {
       return "";
     }
-    return trimDots(await response.text());
+
+    const data: MetaInfo = await response.json();
+    return trimDots(data.instance);
   } catch {
     return "";
   }
@@ -115,14 +128,19 @@ export function apiFetch(
 axios.defaults.baseURL = apiBaseUrl || undefined;
 axios.defaults.withCredentials = true;
 
-export function handleApiError<T>(
+export function handleApiError(error: unknown): Promise<never>;
+export function handleApiError<T extends ErrorResponse>(
+  error: unknown,
+  rejectWithValue: (value: T) => unknown
+): never;
+export function handleApiError<T extends ErrorResponse>(
   error: unknown,
   rejectWithValue?: (value: T) => unknown
-) {
+): unknown {
   if (rejectWithValue == undefined) {
-    rejectWithValue = (value) => {
+    rejectWithValue = ((value) => {
       return Promise.reject(value);
-    };
+    }) as (value: T) => unknown;
   }
 
   const errorResponse: ErrorResponse = { Error: "Something went wrong" };
